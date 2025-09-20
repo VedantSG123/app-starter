@@ -9,26 +9,29 @@ While better-auth has excellent documentation for full-stack Next.js application
 
 ## **Tech Stack**
 
-* **Runtime:** [Bun](https://bun.sh/)
-* **Frontend:** [Next.js](https://nextjs.org/) 15
-* **Backend:** [Elysia.js](https://elysiajs.com/)
-* **Authentication:** [Better-Auth](https://www.better-auth.com/)
-* **Database:** [PostgreSQL](https://www.postgresql.org/)
-* **DB Client:** [node-pg](https://node-postgres.com/) (with a singleton Pool instance for efficient connection management)
-* **Styling:** [Tailwind CSS](https://tailwindcss.com/)
+- **Runtime:** [Bun](https://bun.sh/)
+- **Frontend:** [Next.js](https://nextjs.org/) 15
+- **Backend:** [Elysia.js](https://elysiajs.com/)
+- **Authentication:** [Better-Auth](https://www.better-auth.com/)
+- **Database:** [PostgreSQL](https://www.postgresql.org/)
+- **DB Client:** [node-pg](https://node-postgres.com/) (with a singleton Pool instance for efficient connection management)
+- **Styling:** [Tailwind CSS](https://tailwindcss.com/)
 
 ## **Features**
 
 This starter comes with a robust authentication system already built for you:
 
-* ✅ User Signup with email verification
-* ✅ User Login (Session-based using secure, HTTP-only cookies)
-* ✅ Password Reset flow (Forgot Password)
-* ✅ Protected Routes on both Frontend and Backend
-* ✅ Centralized API client in Next.js for easy fetching
-* ✅ Clear separation of concerns between frontend and backend
+- ✅ User Signup with email verification
+- ✅ User Login (Session-based using secure, HTTP-only cookies)
+- ✅ Password Reset flow (Forgot Password)
+- ✅ Protected Routes on both Frontend and Backend
+- ✅ Centralized API client in Next.js for easy fetching
+- ✅ Clear separation of concerns between frontend and backend
 
 ### **Prerequisites**
 
-* [Bun](https://bun.sh/docs/installation)
-* A running [PostgreSQL](https://www.postgresql.org/download/) instance
+- [Bun](https://bun.sh/docs/installation)
+- A running [PostgreSQL](https://www.postgresql.org/download/) instance
+
+> [!IMPORTANT]
+> I am using [Resend](https://resend.com/) for emails, feel free to use the mainling library you wish to use
