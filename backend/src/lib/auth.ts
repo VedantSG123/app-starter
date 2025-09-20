@@ -9,6 +9,9 @@ export const auth = betterAuth({
   emailAndPassword: {
     enabled: true,
     requireEmailVerification: true,
+    sendResetPassword: async ({ user, url }) => {
+      await sendAuthEmail(user.email, 'reset', url)
+    },
   },
   emailVerification: {
     sendVerificationEmail: async ({ user, url }) => {
@@ -16,6 +19,7 @@ export const auth = betterAuth({
     },
     autoSignInAfterVerification: true,
   },
+  trustedOrigins: [process.env.FRONTEND_URL].filter(Boolean) as string[],
 })
 
 export const betterAuthPlugin = new Elysia({ name: 'better-auth' })

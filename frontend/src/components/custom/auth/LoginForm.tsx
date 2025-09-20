@@ -3,7 +3,9 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Loader2Icon } from 'lucide-react'
 import Link from 'next/link'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { useForm } from 'react-hook-form'
+import { toast } from 'sonner'
 import { z } from 'zod'
 
 import { Button } from '@/components/ui/button'
@@ -16,6 +18,7 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
+import { authClient } from '@/lib/auth-client'
 import { cn } from '@/lib/utils'
 
 const formSchema = z.object({
@@ -31,18 +34,32 @@ export function LoginForm({
   className,
   ...props
 }: React.ComponentProps<'form'>) {
+  const searchParams = useSearchParams()
+  const router = useRouter()
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       email: '',
       password: '',
     },
-    mode: 'onChange',
+    mode: 'onBlur',
   })
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    // ⬇️ Leave action empty for now
-    console.log('Login submitted:', values)
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    try {
+      await authClient.signIn.email({
+        email: values.email,
+        password: values.password,
+      })
+      router.push(searchParams.get('redirect') || '/dashboard')
+    } catch (error) {
+      if (error instanceof Error) {
+        toast.error(error.message)
+      } else {
+        toast.error('Failed to sign in. Please try again')
+      }
+    }
   }
 
   return (
@@ -83,12 +100,12 @@ export function LoginForm({
               <FormItem className='grid gap-3'>
                 <div className='flex items-center'>
                   <FormLabel>Password</FormLabel>
-                  <a
-                    href='#'
+                  <Link
+                    href='/auth/forgot-password'
                     className='ml-auto text-sm underline-offset-4 hover:underline'
                   >
                     Forgot your password?
-                  </a>
+                  </Link>
                 </div>
                 <FormControl>
                   <Input type='password' {...field} />
