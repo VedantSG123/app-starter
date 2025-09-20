@@ -6,6 +6,13 @@ import { sendAuthEmail } from './resend'
 
 export const auth = betterAuth({
   database: getPool(),
+  socialProviders: {
+    google: {
+      prompt: 'select_account',
+      clientId: process.env.GOOGLE_CLIENT_ID || '',
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET || '',
+    },
+  },
   emailAndPassword: {
     enabled: true,
     requireEmailVerification: true,

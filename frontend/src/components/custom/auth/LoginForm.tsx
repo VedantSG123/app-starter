@@ -2,8 +2,10 @@
 
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Loader2Icon } from 'lucide-react'
+import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter, useSearchParams } from 'next/navigation'
+import * as React from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import { z } from 'zod'
@@ -46,6 +48,8 @@ export function LoginForm({
     mode: 'onBlur',
   })
 
+  const [ssoLoginLoading, setSsoLoginLoading] = React.useState(false)
+
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
       await authClient.signIn.email({
@@ -59,6 +63,26 @@ export function LoginForm({
       } else {
         toast.error('Failed to sign in. Please try again')
       }
+    }
+  }
+
+  async function ssoLogin() {
+    setSsoLoginLoading(true)
+    try {
+      await authClient.signIn.social({
+        provider: 'google',
+        callbackURL:
+          `${window.location.origin}` +
+          (searchParams.get('redirect') || '/dashboard'),
+      })
+    } catch (error) {
+      if (error instanceof Error) {
+        toast.error(error.message)
+      } else {
+        toast.error('Failed to sign in. Please try again')
+      }
+    } finally {
+      setSsoLoginLoading(false)
     }
   }
 
@@ -124,6 +148,22 @@ export function LoginForm({
               <Loader2Icon className='animate-spin' />
             )}
             Login
+          </Button>
+
+          <div className='after:border-border relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t'>
+            <span className='bg-background text-muted-foreground relative z-10 px-2'>
+              Or continue with
+            </span>
+          </div>
+
+          <Button
+            variant='outline'
+            className='w-full cursor-pointer'
+            onClick={ssoLogin}
+            disabled={ssoLoginLoading || form.formState.isSubmitting}
+          >
+            <Image width={18} height={18} src='/google.svg' alt='google logo' />
+            Sign in with Google
           </Button>
         </div>
 
