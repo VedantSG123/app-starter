@@ -34,4 +34,4 @@ This starter comes with a robust authentication system already built for you:
 - A running [PostgreSQL](https://www.postgresql.org/download/) instance
 
 > [!IMPORTANT]
-> I am using [Resend](https://resend.com/) for emails, feel free to use the mainling library you wish to use
+> I am using [Resend](https://resend.com/) for emails, feel free to use the mailing library you wish to use
